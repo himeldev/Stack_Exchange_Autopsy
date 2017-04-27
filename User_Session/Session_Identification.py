@@ -67,7 +67,7 @@ for row in csv_f:
                     
                 prev_timestamp = current_timestamp
           
-        output_file.write('\n\n')
+        output_file.write('\n')
         #print ''
         #print 'Site: ', prev_site, 'User Id: ', prev_user_id, ' Done'
         action_sequence_all_user.append(copy.deepcopy(action_sequence_current_user))
