@@ -1,9 +1,9 @@
 import csv
 import matplotlib.pyplot as plt
 
-#data_file = open('C:/Users/Himel/Documents/GitHub/Stack_Exchange_Autopsy/Datasets/Contribution_of_Top_Answerers.csv')
+data_file = open('C:/Users/Himel/Documents/GitHub/Stack_Exchange_Autopsy/Datasets/Contribution_of_Top_Answerers.csv')
 #data_file = open('C:/Users/Himel/Documents/GitHub/Stack_Exchange_Autopsy/Datasets/Contribution_of_Top_Askers.csv')
-data_file = open('C:/Users/Himel/Documents/GitHub/Stack_Exchange_Autopsy/Datasets/Contribution_of_Top_Questions.csv')
+#data_file = open('C:/Users/Himel/Documents/GitHub/Stack_Exchange_Autopsy/Datasets/Contribution_of_Top_Questions.csv')
 csv_data = csv.reader(data_file)
 
 figure_count = 1
@@ -48,9 +48,9 @@ for row in csv_data:
             #ax.set_ylabel('Cumulative Question Contribution')
             ax.set_xlabel('Cumulative Top Question Magnitude')
             ax.set_ylabel('Cumulative Answer Magnitude')
-            #fig.savefig('C:/Users/Himel/Documents/GitHub/Stack_Exchange_Autopsy/Figures/Pareto/Answerer/'+current_site+'_'+str(current_month))
+            fig.savefig('C:/Users/Himel/Documents/GitHub/Stack_Exchange_Autopsy/Figures/Pareto/Answerer/'+current_site+'_'+str(current_month))
             #fig.savefig('C:/Users/Himel/Documents/GitHub/Stack_Exchange_Autopsy/Figures/Pareto/Asker/'+current_site+'_'+str(current_month))
-            fig.savefig('C:/Users/Himel/Documents/GitHub/Stack_Exchange_Autopsy/Figures/Pareto/Question/'+current_site+'_'+str(current_month))
+            #fig.savefig('C:/Users/Himel/Documents/GitHub/Stack_Exchange_Autopsy/Figures/Pareto/Question/'+current_site+'_'+str(current_month))
             plt.close(fig)
 
         current_site = row[0]

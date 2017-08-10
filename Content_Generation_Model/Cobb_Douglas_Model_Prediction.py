@@ -52,37 +52,37 @@ for row in csv_data:
         #One in ten rule: at least 20 points for a 2 variable regression
         
         if len(answer_count) >= 10:
+
+            question_count_train = question_count[0:int(len(question_count)*0.8)]
+            answer_count_train = answer_count[0:int(len(answer_count)*0.8)]
+            asker_count_train = asker_count[0:int(len(asker_count)*0.8)]
+            answerer_count_train = answerer_count[0:int(len(answerer_count)*0.8)]
             
-            optimal_parameters_question, covariance_of_parameters_question = curve_fit(cobb_douglas_question, asker_count, question_count)
-            answer_factors = np.array([question_count, answerer_count])
-            optimal_parameters_answer, covariance_of_parameters_answer = curve_fit(cobb_douglas_answer, answer_factors, answer_count, bounds=([0, 0, 0],[np.inf, 1.0, 1.0]))
+            optimal_parameters_question, covariance_of_parameters_question = curve_fit(cobb_douglas_question, asker_count_train, question_count_train)
+            answer_factors_train = np.array([question_count_train, answerer_count_train])
+            optimal_parameters_answer, covariance_of_parameters_answer = curve_fit(cobb_douglas_answer, answer_factors_train, answer_count_train, bounds=([0, 0, 0],[np.inf, 1.0, 1.0]))
             
-            print '%s, %.6f, %.6f, %.6f, %.6f , %.6f' % (current_site, optimal_parameters_question[0], optimal_parameters_question[1], optimal_parameters_answer[0], optimal_parameters_answer[1], optimal_parameters_answer[2])
+            #print '%s, %.6f, %.6f, %.6f, %.6f , %.6f' % (current_site, optimal_parameters_question[0], optimal_parameters_question[1], optimal_parameters_answer[0], optimal_parameters_answer[1], optimal_parameters_answer[2])
 
             fig = plt.figure(figure_count)
             figure_count += 1
             ax = fig.add_subplot(111)
-            asker_count_sorted = sorted(asker_count)
-            ax.plot(asker_count_sorted, cobb_douglas_question(asker_count_sorted, *optimal_parameters_question), c='b')
-            ax.scatter(asker_count,  question_count, c='r', marker='o')
-            ax.set_xlabel('# of Askers')
+            ax.plot(question_count, 'r--')
+            ax.plot(cobb_douglas_question(asker_count, *optimal_parameters_question), c='b')
+            ax.plot([int(len(question_count)*0.8), int(len(question_count)*0.8)], [0, max(question_count)], 'k-', lw=2)
             ax.set_ylabel('# of Questions')
-            fig.savefig('C:/Users/Himel/Documents/GitHub/Stack_Exchange_Autopsy/Figures/Cobb-Douglas/Month/Question/'+current_site)
+            fig.savefig('C:/Users/Himel/Documents/GitHub/Stack_Exchange_Autopsy/Figures/Cobb-Douglas/Prediction/Month/Question/'+current_site)
             plt.close(fig)
             
             fig = plt.figure(figure_count)
             figure_count += 1
             ax = fig.add_subplot(111)
-            scatter_model = ax.scatter(answer_factors[0], answer_factors[1], c = cobb_douglas_answer(answer_factors, *optimal_parameters_answer), s = 90, marker = '_', lw = 2.5)
-            scatter_data = ax.scatter(answer_factors[0], answer_factors[1],  c = answer_count, s = 90, marker = '|', lw = 2.5)
-            if max(cobb_douglas_answer(answer_factors, *optimal_parameters_answer)) > max(answer_count):
-                scatter_colorbar = plt.colorbar(scatter_model)
-            else:
-                scatter_colorbar = plt.colorbar(scatter_data)          
-            scatter_colorbar.set_label('# of Answers')
-            ax.set_xlabel('# of Questions')
-            ax.set_ylabel('# of Answerers')
-            fig.savefig('C:/Users/Himel/Documents/GitHub/Stack_Exchange_Autopsy/Figures/Cobb-Douglas/Month/Answer/'+current_site)
+            ax.plot(answer_count, 'r--')
+            answer_factors = np.array([question_count, answerer_count])
+            ax.plot(cobb_douglas_answer(answer_factors, *optimal_parameters_answer), c='b')
+            ax.plot([int(len(answer_count)*0.8), int(len(answer_count)*0.8)], [0, max(answer_count)], 'k-', lw=2)
+            ax.set_ylabel('# of Answers')
+            fig.savefig('C:/Users/Himel/Documents/GitHub/Stack_Exchange_Autopsy/Figures/Cobb-Douglas/Prediction/Month/Answer/'+current_site)
             plt.close(fig)
 
         current_site = row[0]
