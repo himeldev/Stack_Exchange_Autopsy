@@ -12,6 +12,9 @@ def cobb_douglas_question(x, A, lambda_0):
 data_file = open('C:/Users/Himel/Documents/GitHub/Stack_Exchange_Autopsy/Datasets/Monthly_QA_Activity.csv')
 csv_data = csv.reader(data_file)
 
+text_file = open("Cobb_Douglas_Parameters.txt", "w")
+
+
 first_row = next(csv_data)
 current_site = first_row[0]
 
@@ -57,7 +60,10 @@ for row in csv_data:
             answer_factors = np.array([question_count, answerer_count])
             optimal_parameters_answer, covariance_of_parameters_answer = curve_fit(cobb_douglas_answer, answer_factors, answer_count, bounds=([0, 0, 0],[np.inf, 1.0, 1.0]))
             
-            print '%s, %.6f, %.6f, %.6f, %.6f , %.6f' % (current_site, optimal_parameters_question[0], optimal_parameters_question[1], optimal_parameters_answer[0], optimal_parameters_answer[1], optimal_parameters_answer[2])
+            text_file.write("%s, %.6f, %.6f, %.6f, %.6f , %.6f\n" % (current_site, optimal_parameters_question[0], optimal_parameters_question[1],
+                                                         optimal_parameters_answer[0], optimal_parameters_answer[1], optimal_parameters_answer[2]))
+            #print '%s, %.6f, %.6f, %.6f, %.6f , %.6f' % (current_site, optimal_parameters_question[0], optimal_parameters_question[1],
+             #                                            optimal_parameters_answer[0], optimal_parameters_answer[1], optimal_parameters_answer[2])
 
             fig = plt.figure(figure_count)
             figure_count += 1
@@ -96,6 +102,8 @@ for row in csv_data:
         answer_count.append(int(row[3]))
         asker_count.append(int(row[5]))
         answerer_count.append(int(row[5]))
+
+text_file.close()
 
 
 

@@ -23,8 +23,6 @@ for i in range(2):
 
     csv_data = csv.reader(data_file)
     
-
-    
     if i == 1:
         csv_data = csv.reader(data_file_2)
         

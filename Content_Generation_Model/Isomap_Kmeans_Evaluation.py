@@ -58,7 +58,7 @@ optimal_n_neighbors =20
 optimal_n_components = 3
 
 reduced_data = manifold.Isomap(optimal_n_neighbors, optimal_n_components).fit_transform(site_topic_distribution)
-#print reduced_data
+print reduced_data
 
 max_silhouette_avg = 0
 

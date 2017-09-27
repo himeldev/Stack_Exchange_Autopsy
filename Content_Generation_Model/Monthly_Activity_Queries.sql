@@ -66,3 +66,16 @@ GROUP BY site, month_id, question_id ORDER BY site, month_id, answer_count DESC)
 TO 'C:/Users/Himel/Documents/GitHub/Stack_Exchange_Autopsy/Growth_Model/Contribution_of_Top_Questions.csv' WITH CSV
 
 
+COPY (SELECT site, owner_user_id AS user_id, 
+
+FLOOR(EXTRACT(DAY FROM posts.creation_date - first_posts.first_creation_date)/30)+1 AS month_id, COUNT(*) AS answer_count
+
+FROM (posts NATURAL JOIN (SELECT site, MIN(creation_date) AS first_creation_date FROM posts GROUP BY site) AS first_posts)
+
+WHERE post_type_id = 2 AND owner_user_id IS NOT NULL AND owner_user_id <> -1
+
+GROUP BY site, month_id, user_id ORDER BY site, user_id, month_id) 
+
+TO 'C:/Users/Himel/Documents/GitHub/Stack_Exchange_Autopsy/Datasets/Death_Answerer.csv' WITH CSV
+
+
